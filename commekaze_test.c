@@ -1,6 +1,6 @@
 int main() {
    printf("Hello World");
-   int x = 10;
+   /*~ int x = 10;
    x *= 3;
-   printf("%d", x);
+   printf("%d", x); ~*/
 }
