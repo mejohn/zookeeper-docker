@@ -1,9 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import sys
 import re
 import subprocess
 import os
+
+# TODO
+# right now, the script checks for all files in the repo, we can do git diff instead to make this that much more efficient
 
 # Call git in a nice way
 def git(args):
@@ -13,7 +16,7 @@ def git(args):
     return git
   except Exception, e:
     return None
-
+exit(1)
 regex      = "((?:(?:\\/\\*)|\\#)\\~(?:.*?|[\\r\\n])*?\\~(?:(?:\\*\\/)|\\#))" # NOTE: every forward slash in the pattern had to be escaped here - to test out, remove every other forward slash
 files      = git(['ls-tree', '-r', 'HEAD', '--name-only']).split('\n') # Get all the files in our working tree
 commekazed = []
@@ -27,6 +30,7 @@ for file in files:
     content    = f.read()
     orig_file  = content
     matches    = re.findall(regex, content, re.M)
+
     if len(matches):
       try:
         # If we did find a commekaze comment, let's check that against the same file from 5 commits ago
@@ -44,9 +48,11 @@ for file in files:
 
             content = content.replace(match, '')
             f.seek(0)    # Start at the beginning of the file again
-            f.truncate() # Trancate the file
 
-            f.write(content) # Write the new string we created after switching out the commekaze comment
+            # f.truncate() # Trancate the file
+            # TODO ***********************
+            # uncomment line below and above
+            # f.write(content) # Write the new string we created after switching out the commekaze comment
 
             # TODO add this to the git commit message
             msg = "Removed commekaze block from {0}, line {1}\n".format(unicode(file), unicode(line_num))
@@ -58,4 +64,31 @@ for file in files:
 
     f.close()
 
-print ''.join(commekazed)
+print(''.join(commekazed))
+# commit_file = open(os.path.join(os.path.dirname(__file__), "..", "COMMIT_EDITMSG"), "r+")
+# import pdb; pdb.set_trace()
+# commit_file.seek(0)
+# commit_file.write(''.join(commekazed))
+# commit_file.seek(0)
+
+print("in commit msg, {0}".format(unicode(sys.argv[1])))
+# print(commit_file.read())
+commit_file.seek(0)
+commit_file.close()
+# print ''.join(commekazed)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
