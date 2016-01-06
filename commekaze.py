@@ -16,7 +16,8 @@ def git(args):
     return git
   except Exception, e:
     return None
-exit(1)
+
+#exit(1)
 regex      = "((?:(?:\\/\\*)|\\#)\\~(?:.*?|[\\r\\n])*?\\~(?:(?:\\*\\/)|\\#))" # NOTE: every forward slash in the pattern had to be escaped here - to test out, remove every other forward slash
 files      = git(['ls-tree', '-r', 'HEAD', '--name-only']).split('\n') # Get all the files in our working tree
 commekazed = []
