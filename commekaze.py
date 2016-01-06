@@ -56,7 +56,7 @@ for file in files:
             # f.write(content) # Write the new string we created after switching out the commekaze comment
 
             # TODO add this to the git commit message
-            msg = "Removed commekaze block from {0}, line {1}. ".format(unicode(file), unicode(line_num))
+            msg = "Removed commekaze block from {0}, line {1}.\n".format(unicode(file), unicode(line_num))
             commekazed.append(msg) 
           pass
         pass
@@ -66,12 +66,13 @@ for file in files:
     f.close()
 
 print(''.join(commekazed))
-commit_file = open(os.path.join(os.path.dirname(__file__), "..", "COMMIT_EDITMSG"), "r+")
+#commit_file = open(os.path.join(os.path.dirname(__file__), "..", "COMMIT_EDITMSG"), "r+")
 
-for msg in commekazed:
-    commit_file.write(msg)
+#for msg in commekazed:
+#    commit_file.write(msg)
 
+#commit_file.write("\n#")
 #print("in commit msg, {0}".format(unicode(sys.argv[1])))
-print(commit_file.read())
-commit_file.close()
+#print(commit_file.read())
+#commit_file.close()
 # print ''.join(commekazed)
