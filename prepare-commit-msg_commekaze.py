@@ -10,7 +10,7 @@ for line in temp_file:
     commekazed.append(line)
 
 temp_file.close()
-
+os.remove(os.path.join(os.path.dirname(__file__), "..", "commekaze_temp")
 commit_file = open(os.path.join(os.path.dirname(__file__), "..", "COMMIT_EDITMSG"), "r+")
 
 for line in commekazed:
