@@ -40,7 +40,7 @@ for file in files:
           # Check our old file for matches...
 
           if match in history:
-            # import pdb; pdb.set_trace()
+            import pdb; pdb.set_trace()
             # ...if we found a match, log it and replace it with an empty string
 
             # Let's find the line number of our match
@@ -55,7 +55,7 @@ for file in files:
             # f.write(content) # Write the new string we created after switching out the commekaze comment
 
             # TODO add this to the git commit message
-            msg = "Removed commekaze block from {0}, line {1}\n".format(unicode(file), unicode(line_num))
+            msg = "Removed commekaze block from {0}, line {1}. ".format(unicode(file), unicode(line_num))
             commekazed.append(msg) 
           pass
         pass
@@ -71,7 +71,7 @@ print(''.join(commekazed))
 # commit_file.write(''.join(commekazed))
 # commit_file.seek(0)
 
-print("in commit msg, {0}".format(unicode(sys.argv[1])))
+#print("in commit msg, {0}".format(unicode(sys.argv[1])))
 # print(commit_file.read())
 commit_file.seek(0)
 commit_file.close()
