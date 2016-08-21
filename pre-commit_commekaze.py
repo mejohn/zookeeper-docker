@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-import sys
 import re
-import subprocess
 import os
+import sys
+import subprocess
 
 # TODO
 # right now, the script checks for all files in the repo, we can do git diff instead to make this that much more efficient

@@ -6,6 +6,7 @@ import shutil
 import unittest
 from shutil import copyfile
 from subprocess import call
+import subprocess
 
 class TestCommekaze(unittest.TestCase):
 
@@ -40,12 +41,19 @@ class TestCommekaze(unittest.TestCase):
     self.assertEquals(1, 1)
 
   def test_initial_commit(self):
+    initial_commit_msg = "Initial commit"
+
     call(["git", "add", "-A"])
-    import pdb; pdb.set_trace()
-    initial_commit = call(["git", "commit", "-am", "Initial commit"], stdout=self.FNULL)
-    self.assertEquals(initial_commit, 0)
+    initial_commit = call(["git", "commit", "-am", initial_commit_msg], stdout=self.FNULL)
+    self.assertEquals(0, initial_commit)
 
+    num_of_commits_call = subprocess.Popen(["git", "rev-list", "--all", "--count"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    num_of_commits, error = num_of_commits_call.communicate()
+    self.assertEquals(1, int(num_of_commits.strip()))
 
+    last_commit_msg_call = subprocess.Popen(["git", "log", "-1", "--pretty=%B"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    last_commit_msg, error = last_commit_msg_call.communicate()
+    self.assertEquals(initial_commit_msg, last_commit_msg.strip())
 
   @classmethod
   def tearDownClass(cls):
