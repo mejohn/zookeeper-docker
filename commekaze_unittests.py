@@ -5,7 +5,7 @@ import uuid
 import shutil
 import unittest
 from shutil import copyfile
-from subprocess import call
+from subprocess import call, Popen
 import subprocess
 
 class TestCommekaze(unittest.TestCase):
@@ -41,10 +41,10 @@ class TestCommekaze(unittest.TestCase):
     self.assertEquals(1, 1)
 
   def test_initial_commit(self):
-    initial_commit_msg = "Initial commit"
+    initial_commit_msg = 'Initial commit'
 
     call(["git", "add", "-A"])
-    initial_commit = call(["git", "commit", "-am", initial_commit_msg], stdout=self.FNULL)
+    initial_commit = call('git commit -am "{}"'.format(initial_commit_msg), shell=True, stdout=True)
     self.assertEquals(0, initial_commit)
 
     num_of_commits_call = subprocess.Popen(["git", "rev-list", "--all", "--count"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)

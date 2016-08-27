@@ -72,7 +72,7 @@ temp_file = open(os.path.join(os.path.dirname(__file__), "..", "commekaze_temp")
 for msg in commekazed:
     temp_file.write(msg)
 
-temp_file.write("\n#")
+temp_file.write("")
 #print("in commit msg, {0}".format(unicode(sys.argv[1])))
 #print(commit_file.read())
 temp_file.close()
