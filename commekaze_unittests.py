@@ -44,7 +44,7 @@ class TestCommekaze(unittest.TestCase):
     initial_commit_msg = 'Initial commit'
 
     call(["git", "add", "-A"])
-    initial_commit = call('git commit -am "{}"'.format(initial_commit_msg), shell=True, stdout=True)
+    initial_commit = call('git commit -am "{}"'.format(initial_commit_msg), shell=True, stdout=self.FNULL)
     self.assertEquals(0, initial_commit)
 
     num_of_commits_call = subprocess.Popen(["git", "rev-list", "--all", "--count"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -54,6 +54,86 @@ class TestCommekaze(unittest.TestCase):
     last_commit_msg_call = subprocess.Popen(["git", "log", "-1", "--pretty=%B"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     last_commit_msg, error = last_commit_msg_call.communicate()
     self.assertEquals(initial_commit_msg, last_commit_msg.strip())
+
+  def test_second_commit(self):
+    commit_msg = "Second commit - added regular comments"
+    c_comment  = "\n/* This is a regular comment */"
+    py_comment = "\n# This is a regular comment"
+    test_files = os.listdir(os.getcwd())
+    
+    for test_file in test_files:
+      if os.path.isdir(test_file) == False:
+        f = open(test_file, 'a+')
+        ext = os.path.splitext(test_file)[1]
+        if ext == '.c':
+          f.write(c_comment)
+        elif ext == '.py':
+          f.write(py_comment)
+
+    second_commit = call('git commit -am "{}"'.format(commit_msg), shell=True, stdout=self.FNULL)
+    self.assertEquals(0, second_commit)
+
+    num_of_commits_call = subprocess.Popen(["git", "rev-list", "--all", "--count"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    num_of_commits, error = num_of_commits_call.communicate()
+    self.assertEquals(2, int(num_of_commits.strip()))
+
+    last_commit_msg_call = subprocess.Popen(["git", "log", "-1", "--pretty=%B"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    last_commit_msg, error = last_commit_msg_call.communicate()
+    self.assertEquals(commit_msg, last_commit_msg.strip())
+
+  def test_third_commit(self):
+    commit_msg = "Third commit - added commekaze comments"
+    c_comment  = "\n/*~ This is a commekaze comment and will disappear after 5 commits ~*/"
+    py_comment = "\n#~ This is a commekaze comment and will disappear after 5 commits ~#"
+    test_files = os.listdir(os.getcwd())
+    
+    for test_file in test_files:
+      if os.path.isdir(test_file) == False:
+        f = open(test_file, 'a+')
+        ext = os.path.splitext(test_file)[1]
+        if ext == '.c':
+          f.write(c_comment)
+        elif ext == '.py':
+          f.write(py_comment)
+
+    third_commit = call('git commit -am "{}"'.format(commit_msg), shell=True, stdout=self.FNULL)
+    self.assertEquals(0, third_commit)
+
+    num_of_commits_call = subprocess.Popen(["git", "rev-list", "--all", "--count"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    num_of_commits, error = num_of_commits_call.communicate()
+    self.assertEquals(3, int(num_of_commits.strip()))
+
+    last_commit_msg_call = subprocess.Popen(["git", "log", "-1", "--pretty=%B"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    last_commit_msg, error = last_commit_msg_call.communicate()
+    self.assertEquals(commit_msg, last_commit_msg.strip())
+
+  def test_fourth_commit(self):
+    commit_msg = "Fourth commit - added regular comments"
+    c_comment  = "\n/* This is a regular comment */"
+    py_comment = "\n# This is a regular comment"
+    test_files = os.listdir(os.getcwd())
+    
+    for test_file in test_files:
+      if os.path.isdir(test_file) == False:
+        f = open(test_file, 'a+')
+        ext = os.path.splitext(test_file)[1]
+        if ext == '.c':
+          f.write(c_comment)
+        elif ext == '.py':
+          f.write(py_comment)
+
+    fourth_commit_call = subprocess.Popen('git commit -am "{}"'.format(commit_msg), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    fourth_commit, error = fourth_commit_call.communicate()
+    # import pdb; pdb.set_trace()
+    self.assertEquals(0, fourth_commit)
+
+    num_of_commits_call = subprocess.Popen(["git", "rev-list", "--all", "--count"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    num_of_commits, error = num_of_commits_call.communicate()
+    self.assertEquals(4, int(num_of_commits.strip()))
+
+    last_commit_msg_call = subprocess.Popen(["git", "log", "-1", "--pretty=%B"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    last_commit_msg, error = last_commit_msg_call.communicate()
+    self.assertEquals(commit_msg, last_commit_msg.strip())
 
   @classmethod
   def tearDownClass(cls):

@@ -12,7 +12,7 @@ import subprocess
 def git(args):
   args    = ['git'] + args
   try:
-    git = subprocess.check_output(args).decode("utf-8").strip()
+    git = subprocess.check_output(args, stderr=subprocess.STDOUT).decode("utf-8").strip()
     return git
   except Exception, e:
     return None
@@ -35,7 +35,7 @@ for file in files:
     if len(matches):
       try:
         # If we did find a commekaze comment, let's check that against the same file from 5 commits ago
-        history = git(['show', 'HEAD~4:' + file]) # TODO change to ~5
+        history = git(['show', 'HEAD~5:' + file])
 
         for match in matches:
           # Check our old file for matches...
